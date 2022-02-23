@@ -48,31 +48,23 @@ public class SellerDaoJDBC implements SellerDao {
 				}
 				DB.closeResultSet(rs);
 
-			} 
-			else {
+			} else {
 				throw new DbException("Unexpected error! No rows affected!");
 			}
-		} 
-		catch (SQLException e) {
+		} catch (SQLException e) {
 			throw new DbException(e.getMessage());
-		} 
-		finally {
+		} finally {
 			DB.closeStatement(st);
 		}
 
 	}
 
-	
-
 	@Override
 	public void update(Seller obj) {
 		PreparedStatement st = null;
 		try {
-			st = conn.prepareStatement(
-					"UPDATE seller "
-					+ "SET Name = ?, Email = ?, BirthDate = ?, BaseSalary = ?, DepartmentId = ? "
-					+ "WHERE Id = ?");
-					
+			st = conn.prepareStatement("UPDATE seller "
+					+ "SET Name = ?, Email = ?, BirthDate = ?, BaseSalary = ?, DepartmentId = ? " + "WHERE Id = ?");
 
 			st.setString(1, obj.getNeme());
 			st.setString(2, obj.getEmail());
@@ -81,19 +73,29 @@ public class SellerDaoJDBC implements SellerDao {
 			st.setInt(5, obj.getDepartment().getId());
 			st.setInt(6, obj.getId());
 
-			 st.executeUpdate();
-		} 
-		catch (SQLException e) {
+			st.executeUpdate();
+		} catch (SQLException e) {
 			throw new DbException(e.getMessage());
-		} 
-		finally {
+		} finally {
 			DB.closeStatement(st);
 		}
 	}
 
 	@Override
-	public void deleteBy(Integer id) {
-		// TODO Auto-generated method stub
+	public void deleteById(Integer id) {
+		PreparedStatement st = null;
+		try {
+			st = conn.prepareStatement("DELETE FROM seller WHERW Id = ? ");
+
+			st.setInt(1, id);
+
+			st.executeUpdate();
+
+		} catch (SQLException e) {
+			throw new DbException(e.getMessage());
+		} finally {
+			DB.closeStatement(st);
+		}
 
 	}
 
@@ -114,11 +116,9 @@ public class SellerDaoJDBC implements SellerDao {
 				return obj;
 			}
 			return null;
-		} 
-		catch (SQLException e) {
+		} catch (SQLException e) {
 			throw new DbException(e.getMessage());
-		}
-		finally {
+		} finally {
 			DB.closeStatement(st);
 			DB.closeResultSet(rs);
 		}
@@ -172,12 +172,10 @@ public class SellerDaoJDBC implements SellerDao {
 			}
 			return null;
 
-		} 
-		catch (SQLException e) {
+		} catch (SQLException e) {
 			throw new DbException(e.getMessage());
 
-		}
-		finally {
+		} finally {
 			DB.closeStatement(st);
 			DB.closeResultSet(rs);
 		}
@@ -214,12 +212,10 @@ public class SellerDaoJDBC implements SellerDao {
 			}
 			return null;
 
-		}
-		catch (SQLException e) {
+		} catch (SQLException e) {
 			throw new DbException(e.getMessage());
 
-		} 
-		finally {
+		} finally {
 			DB.closeStatement(st);
 			DB.closeResultSet(rs);
 		}
